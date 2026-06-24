@@ -1,10 +1,10 @@
-drop table abteilung;
-drop table arbeitszeitmodell;
-drop table familienstand;
-drop table mitarbeiter;
+--drop table abteilung;
+--drop table arbeitszeitmodell;
+--drop table familienstand;
+--drop table mitarbeiter;
 
 Create table abteilung (
-abt_id INT IDENTITY (1,1) PRIMARY KEY,
+abt_id INT IDENTITY (1,1) PRIMARY KEY, /*kommentar*/
 abtnr VARCHAR(100)
 );
 
@@ -14,8 +14,8 @@ az_bez VARCHAR(50)
 );
 
 create table familienstand (
-f_id INT IDENTITY(1,1) Primary key,
-fam_bez Varchar(50)
+fs_id INT IDENTITY(1,1) Primary key,
+familienstand Varchar(50)
 );
 
 create table mitarbeiter (
@@ -26,25 +26,58 @@ str_hsnr VARCHAR(100),
 plz VARCHAR(5),
 ort VARCHAR(50),
 gebdatum DATE,
-f_id INT, 
-azm_id CHAR(2),
-abt_nr INT,
+fs_id INT, 
+abt_id INT,
+modell_code CHAR(2),
 CONSTRAINT PK_mitarbeiter PRIMARY KEY (ma_id),
-CONSTRAINT FK_ma_fam_f_id FOREIGN KEY (f_id) REFERENCES familienstand(f_id),
-CONSTRAINT FK_ma_azm_azm_f_id FOREIGN KEY (azm_id) REFERENCES arbeitszeitmodell(modell_code),
-CONSTRAINT FK_ma_abt_abt_id FOREIGN KEY (abt_id) REFERENCES abteilung(abtnr)
+CONSTRAINT FK_ma_fam_f_id FOREIGN KEY (fs_id) REFERENCES familienstand(fs_id),
+CONSTRAINT FK_ma_abt_abt_id FOREIGN KEY (abt_id) REFERENCES abteilung(abt_id),
+CONSTRAINT FK_ma_azm_azm_f_id FOREIGN KEY (modell_code) REFERENCES arbeitszeitmodell(modell_code)
 );
 
-
+select * from abteilung 
+select * from familienstand
+select * from arbeitszeitmodell
+select * from mitarbeiter
 
 insert into abteilung VALUES
-(1	Personal
-(2	Vertrieb
-(3	Marketing
-(4	Buchhaltung
-(5	IT
-(6	Entwicklung
-(7	Produktion
-(8	Einkauf
-(9	Logistik
-(10	Verwaltung
+('Personal'),
+('Vertrieb'),
+('Marketing'),
+('Buchhaltung'),
+('IT'),
+('Entwicklung'),
+('Produktion'),
+('Einkauf'),
+('Logistik'),
+('Verwaltung');
+
+
+
+insert into familienstand VALUES
+('ledig'),
+('verheiratet'),
+('geschieden'),
+('verwitwet'),
+('eingetr. Lebensgemeinschaft');
+
+
+insert into arbeitszeitmodell VALUES
+('ho',	'HomeOffice'),
+('tz',	'Teilzeit'),
+('vz',	'Vollzeit'),
+('mm',	'Minijob');
+
+
+
+insert into mitarbeiter VALUES
+('Fahrer' ,	'Bob', 	'Mozartstr. 7', 	'90768',	'Fuerth', 	'1972-11-02',	5, 7, 'vz'),
+('Platz' ,	'Alexander', 	'Lessingstr. 72', 	'91054',	'Erlangen', 	'1955-08-01',	2, 7, 'vz'),
+('Kreuz' ,	'Andreas', 	'Ringstr. 40', 	'90765',	'Fuerth', 	'1974-04-26',	3, 2, 'ho'),
+('Geber' ,	'Ann', 	'Schillerstr. 25', 	'90762',	'Fuerth', 	'1987-03-17',	3, 10, 'vz'),
+('Zug' ,	'Ann', 	'Lindenweg 12', 	'90411',	'Nuernberg', 	'1996-03-20',	5, 2, 'mm'),
+('Bolika' ,	'Anna', 	'Bahnhofstr. 142', 	'90425',	'Nuernberg', 	'1981-04-20',	5, 6, 'vz'),
+('Nass' ,	'Anna', 	'Dorfstr. 18', 	'90409',	'Nuernberg', 	'1959-02-10',	2, 5, 'ho'),
+('Theke' ,	'Anna', 	'Kirchplatz 60', 	'91052',	'Erlangen', 	'1964-01-23',	4, 5, 'tz'),
+('Höhle' ,	'Axel', 	'Mühlgasse 94', 	'90766',	'Fuerth', 	'1969-08-04',	3, 6, 'vz'),
+('Diener' ,	'Bernhard', 	'Mühlgasse 69', 	'90763',	'Fuerth', 	'1961-05-28',	5, 3, 'vz');
