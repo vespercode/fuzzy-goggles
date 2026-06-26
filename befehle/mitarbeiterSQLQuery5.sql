@@ -127,4 +127,4 @@ INSERT INTO Mitarbeiter (nname, vname, str_hsnr, plz, ort,gebdatum, fs_id, abt_i
 ('Paine', 'Sham', 'Schillerstr. 47', '90411', 'Nuernberg', '1992-07-02', 3, 6, 'tz'), 
 ('Buktu', 'Tim', 'Ringstr. 6', '90763', 'Fuerth', '1984-08-13', 5, 1, 'vz'), 
 ('Streit', 'Wilma', 'Bahnhofstr. 121', '90403', 'Nuernberg', '1995-10-24', 3, 10, 'vz'), 
-('See', 'Wolfgang', 'Hauptstr. 22', '90419', 'Nuernberg', '1976-12-15', 2, 1, 'vz');
+('See', 'Wolfgang', 'Hauptstr. 22', '90419', 'Nuernberg', '1976-12-15', 2, 1, 'vz');git 
