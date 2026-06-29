@@ -7,6 +7,9 @@ INSERT INTO genre VALUES
 ('Electronic'),
 ('Reggae');
 
+INSERT INTO genre VALUES
+('Alternative');
+
 select * from genre;
 
 INSERT INTO interpret VALUES
