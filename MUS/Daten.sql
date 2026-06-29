@@ -7,12 +7,12 @@ INSERT INTO genre VALUES
 ('Electronic'),
 ('Reggae');
 
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
+=========
 INSERT INTO genre VALUES
 ('Alternative');
 
-=======
->>>>>>> 04737b0b958c0ae0e8e546e9d9c150163159f0ef
+>>>>>>>>> Temporary merge branch 2
 select * from genre;
 
 INSERT INTO interpret VALUES
