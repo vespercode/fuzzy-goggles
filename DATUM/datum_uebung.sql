@@ -30,3 +30,15 @@ select titel.titel, genre.genre
 from titel
 join genre on titel.genre_id = genre.g_id
 where genre.genre = 'Klassik';
+
+
+-- 3. Bitte uberprufen Sie, ob 'Miles Davis'
+-- am 01.07.2027 gebucht werden kann
+
+select * from interpret;
+select * from titel;
+select * from genre;
+select top 1 * from in_ver;
+select * from in_ver;
+
+
