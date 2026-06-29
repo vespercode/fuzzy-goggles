@@ -36,3 +36,25 @@ CONSTRAINT FK_ma_abt_abt_nr FOREIGN KEY (abt_nr) REFERENCES abteilung(abtnr)
 );
 
 --select * from mitarbeiter;
+
+create table ma (
+nname varchar(100),
+geb_dat date
+);
+
+
+insert into ma
+select vname, geb_dat from mitarbeiter;
+
+insert into ma, geb_dat, nname
+select geb_dat, nname from mitarbeiter;
+
+select nname, vname
+from mitarbeiter
+join abteilung on abtbez = 
+
+select mitarbeiter.nname, mitarbeiter.vname, abteilung.abtbez
+from mitarbeiter
+join abteilung on mitarbeiter.abt_nr = abteilung.abtnr
+
+
