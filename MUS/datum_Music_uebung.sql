@@ -247,3 +247,15 @@ azm.az_bez like 'Home%';
 by azm.az_bez, ma.nname, ma.vname;
 
 
+SELECT
+  m.nname AS Nachname,
+  a.abtbez AS Abteilung
+FROM mitarbeiter m
+JOIN abteilung a
+  ON m.abtnr = a.abtnr
+ORDER BY
+  a.abtbez,
+  m.nname,
+  m.vname;
+
+
