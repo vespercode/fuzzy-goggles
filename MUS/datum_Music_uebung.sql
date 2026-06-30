@@ -185,3 +185,65 @@ ORDER BY in_ver.datum_von;
 
 
 
+3
+4
+5
+
+-- 6. Lassen Sie den Nachnamen, den Vornamen und das Arbeitszeitmodell jedes
+-- Mitarbeiters ausgeben. Sortiert nach Arbeitszeitmodell
+
+select i.name, ort.ort_name, iv.datum_von, iv.datum_bis
+from interpret i
+join in_ver iv on iv.i_nr = i.i_id
+join veranstaltungsort ort on ort.v_id = iv.v_nr
+where i. name = 'Miles Davis'
+and
+2026 between year(iv.datum_von) and year(datum_bis);
+
+
+
+select i.name, ort.ort_name, iv.datum_von, iv.datum_bis
+from interpret i
+join in_ver iv on iv.i_nr = i.i_id
+join veranstaltungsort ort on ort.v_id = iv.v_nr
+where i. name = 'Miles Davis'
+and
+year(iv.datum_von) <= 2026 and year(iv.datum_bis)>=2026
+-- 2026 between year(iv.datum_von) and year(datum_bis);
+
+
+
+-- 6. Lassen Sie den Nachnamen, den Vornamen und das Arbeitszeitmodell jedes
+-- Mitarbeiters ausgeben. Sortiert nach Arbeitszeitmodell
+
+select * from mitarbeiter
+
+select * from arbeitszeitmodell
+
+select ma.vname, ma.nname, azm.az_bez
+from mitarbeiter ma
+join arbeitszeitmodell azm on azm.modell_code = ma.modell_code
+order by azm.az_bez, ma.nname, ma.vname;
+
+
+-- 7. Nun bitte Nachname, Vorname und Geburtsdatum
+-- aller ledigen Mitarbeiter im 'HomeOffice'
+
+select ma.vname, ma.nname, azm.az_bez
+from mitarbeiter ma
+join arbeitszeitmodell azm on azm.modell_code = ma.modell_code
+order by azm.az_bez, ma.nname, ma.vname;
+
+
+select ma.vname, ma.nname, azm.az_bez
+from mitarbeiter ma
+join familienstand fs on fs.f_id = ma.f_id
+join arbeitszeitmodell azm on azm.modell_code = ma.azm_id
+where fs.fam_bez= 'ledig'
+and
+azm.az_bez like 'Home%';
+
+
+by azm.az_bez, ma.nname, ma.vname;
+
+
