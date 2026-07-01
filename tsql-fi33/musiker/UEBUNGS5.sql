@@ -121,3 +121,129 @@ datename(MICROSECOND, getdate()) Mikro,
 datename(NANOSECOND, getdate()) Nano;
 
 
+SELECT
+  ma.nname AS Nachname,
+  ma.vname AS Vorname
+FROM mitarbeiter ma
+JOIN arbeitszeitmodell azm
+  ON azm.modell_code = ma.azm_id
+WHERE ma.plz BETWEEN '90402' AND '90491'
+  AND azm.az_bez = 'HomeOffice';
+
+
+
+SELECT
+  ma.nname AS Nachname,
+  ma.vname AS Vorname,
+  ma.str_hsnr AS [Straße und Hausnummer]
+FROM mitarbeiter ma
+WHERE ma.plz = '90402';
+
+SELECT
+  ma.nname AS Nachname,
+  ma.vname AS Vorname,
+  ma.gebdatum AS Geburtsdatum
+FROM mitarbeiter ma
+WHERE ma.gebdatum > '1974-12-31'
+ORDER BY ma.gebdatum;
+
+
+SELECT
+  ma.nname AS Nachname,
+  ma.vname AS Vorname,
+  abt.abtbez AS Abteilung,
+  azm.az_bez AS Arbeitszeitmodell,
+  ma.gebdatum AS Geburtsdatum,
+  ma.str_hsnr AS [Straße und Hausnummer],
+  ma.plz AS PLZ,
+  ma.ort AS Wohnort
+FROM mitarbeiter ma
+JOIN abteilung abt
+  ON ma.abt_nr = abt.abtnr
+JOIN arbeitszeitmodell azm
+  ON ma.azm_id = azm.modell_code
+ORDER BY ma.ma_id;
+
+
+SELECT
+  ma.nname AS Nachname,
+  ma.vname AS Vorname,
+  azm.az_bez AS Arbeitszeitmodell
+FROM mitarbeiter ma
+JOIN arbeitszeitmodell azm
+  ON azm.modell_code = ma.azm_id
+WHERE azm.az_bez <> 'HomeOffice'
+ORDER BY
+  ma.nname,
+  ma.vname;
+
+
+
+  SELECT
+  ma.nname AS Nachname,
+  ma.vname AS Vorname,
+  abt.abtbez AS Abteilung,
+  azm.az_bez AS Arbeitszeitmodell,
+  ma.gebdatum AS Geburtsdatum,
+  ma.str_hsnr AS [Straße und Hausnummer],
+  ma.plz AS PLZ,
+  ma.ort AS Wohnort
+FROM mitarbeiter ma
+JOIN abteilung abt
+  ON ma.abt_nr = abt.abtnr
+JOIN arbeitszeitmodell azm
+  ON ma.azm_id = azm.modell_code
+ORDER BY ma.ma_id;
+
+
+
+
+SELECT
+  v_id,
+  ort_name
+FROM veranstaltungsort
+WHERE ort_name = 'Nuernberg';
+
+
+set dateformat dmy;
+select i.i_id, i.name, vort.ort_name, vort.v_id, in_ver.datum_von
+from interpret i
+join in_ver on in_ver.i_nr = i.i_id
+join veranstaltungsort vort on vort.v_id = in_ver.v_nr
+where i.name='Adele' and vort.ort_name='Nuernberg'
+and in_ver.datum_von <= '28.12.2025' and in_ver.datum_bis>='28.12.2025'
+
+
+SELECT
+  v_id,
+  ort_name
+FROM veranstaltungsort
+WHERE ort_name = 'Nuernberg';
+
+
+SELECT
+  v_id,
+  ort_name
+FROM veranstaltungsort
+WHERE ort_name IN ('Nuernberg', 'Nürnberg');
+
+
+DELETE FROM veranstaltungsort
+WHERE ort_name = 'Nürnberg';
+
+SELECT
+  v_id,
+  ort_name
+FROM veranstaltungsort
+WHERE ort_name IN ('Nuernberg', 'Nürnberg');
+
+
+SELECT
+  v_id,
+  ort_name
+FROM veranstaltungsort
+WHERE ort_name IN ('Nuernberg', 'Nürnberg');
+
+
+
+
