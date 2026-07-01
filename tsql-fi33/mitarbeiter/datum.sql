@@ -96,3 +96,7 @@ and
 ma.ort in ('Nürnberg', 'Nuernberg', 'Nuremberg') I
 -- ma.ort like 'N%rnberg';|
 -- ma.ort = 'Nuernberg';
+
+
+
+
