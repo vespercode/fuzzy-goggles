@@ -86,7 +86,7 @@ insert into titel values
 select * from genre
 select * from titel where titel.titel = 'Numb'
 
-update titel set titel.genre_id = 7 where titel.titel = 'Numb'
+update titel set titel.genre_id = 8 where titel.titel = 'Numb'
 
 select titel, interpret.name, genre.genre from titel
 join interpret on titel.interpret_id = interpret.i_id
