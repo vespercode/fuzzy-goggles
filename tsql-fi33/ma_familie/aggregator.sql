@@ -423,6 +423,9 @@ JOIN titel t
   ON t.genre_id = g.g_id
 GROUP BY g.genre
 ORDER BY g.genre;
+  
+
+  -- 2
 
 SELECT
   i.name AS Interpret,
@@ -468,6 +471,14 @@ join veranstaltungsort v on v.v_id = iv.v_nr
 group by i.name, iv.datum_von, v.ort_name
 order by i.name
 
+select i.name, min(iv.datum_von), v.ort_name
+from interpret i
+join in_ver iv on iv.i_nr = i.i_id
+join veranstaltungsort v on v.v_id = iv.v_nr
+group by i.name, iv.datum_von, v.ort_name
+order by i.name
+
+
 ---5
 
 use mitarbeiter_ub1;
@@ -479,6 +490,12 @@ select * from arbeitszeitmodell;
 
 
 select fs.fam_bez, count(*)
+from mitarbeiter ma
+join familienstand fs on fs.f_id = ma.f_id
+group by fs.fam_bez
+
+
+select count(*)
 from mitarbeiter ma
 join familienstand fs on fs.f_id = ma.f_id
 group by fs.fam_bez
@@ -498,18 +515,28 @@ group by ma.ma_id, ma.nname, vname, gebdatum, az_bez
 order by max(gebdatum)
 
 
-select TOP 1 ma.ma_id, ma.nname, vname, gebdatum, az_bez
+select TOP 1 with ties ma.ma_id, ma.nname, vname, gebdatum, az_bez
 from mitarbeiter ma
 join arbeitszeitmodell azm on azm.modell_code = ma.azm_id
 group by ma.ma_id, ma.nname, vname, gebdatum, az_bez
 ORDER BY ma.gebdatum DESC;
 
 
-select a.abtbez, count(*)
+select TOP 1 with ties ma.ma_id, ma.nname, vname, gebdatum, az_bez
+from mitarbeiter ma
+join arbeitszeitmodell azm on azm.modell_code = ma.azm_id
+ORDER BY ma.gebdatum DESC;
+
+
+select count(*), a.abtbez
 from mitarbeiter ma 
 join abteilung a on a.abtnr = ma.abt_nr
 group by a.abtbez
 
+select a.abtbez, count(*)
+from mitarbeiter ma 
+join abteilung a on a.abtnr = ma.abt_nr
+group by a.abtbez
 
 select a.abtbez, count(ma.ma_id)
 from mitarbeiter ma
@@ -517,6 +544,13 @@ join abteilung a on a.abtnr = ma.abt_nr
 group by a.abtbez
 having count(*) > 3
 ORDER BY count(ma.ma_id) DESC;
+
+-- 8. In welcher/welchen Abteilungen arbeiten die meisten Mitarbeiter?
+select top 1 with ties abt.abtbez Abteilung, count(*) 'Anzahl Mitarbeiter'
+from mitarbeiter ma
+join abteilung abt on abt.abtnr = ma.abt_nr
+group by abt.abtbez
+order by 'Anzahl Mitarbeiter' desc;
 
 
 --9
@@ -528,12 +562,41 @@ select * from arbeitszeitmodell;
 select * from skills;
 select * from  ma_skills;
 
-select ma.nname, ma.vname, count(ms.s_id) Anzahl_Skills
+select ma.nname, ma.vname, count(*) Anzahl_Skills
 from mitarbeiter ma
 join ma_skills ms on ms.ma_id = ms.ma_id
 group by ma.ma_id, ma.vname, ma.nname
-having count(ms.s_id) > 2
+having count(*) > 2
 order by ma.nname;
+
+select ma. vname, ma. nname, count(*) 'Anzahl Skills'
+from mitarbeiter ma
+join ma_skills mas on mas.ma_id = ma.ma_id
+-- join skills s on s.s_id = mas.s_id
+group by ma. vname, ma. nname
+having count(*) > 2;
+
+
+
+
+
+-- 9. Welche Mitarbeiter haben mehr als 2 Skills angegeben und wie viele Skills sind das?
+select ma. vname, ma.nname, count(*) 'Anzahl Skills'
+from mitarbeiter ma
+join ma_skills mas on mas.ma_id = ma.ma_id
+--join skills s on s.s_id = mas.s_id
+group by ma. vname, ma. nname
+having count(*) > 2;
+
+-- 9. Welche Mitarbeiter haben mehr als 2 Skills angegeben und wie viele Skills sind das?
+select ma.vname, ma.nname, s.s_bez
+from mitarbeiter ma
+join ma_skills mas on mas.ma_id = ma.ma_id
+join skills s on s.s_id = mas.s_id
+group by ma.vname, ma.nname
+having count(*) > 2;
+
+
 
 
 SELECT
@@ -573,4 +636,93 @@ join ma_skills ms on ms.ma_id = ma.ma_id
 join skills s on s.s_id = ms.s_id
 group by s.s_bez
 order by count(ms.s_id) DESC
+
+-- 10. Welche/r Skill/s wurde/n am häufigsten genannt?
+select top 1 with ties s.s_bez, count(*) 'Anzahl Nennungen'
+from mitarbeiter ma
+join ma_skills mas on mas.ma_id = ma.ma_id
+join skills s on s.s_id = mas.s_id
+group by s.s_bez
+order by 'Anzahl Nennungen' desc;
+
+select top 1 with ties s.s_bez, count(*) 'Anzahl Nennungen'
+from ma_skills mas
+join skills s on s.s_id = mas.s_id
+group by s.s_bez
+order by 'Anzahl Nennungen' desc;
+
+
+
+--11.
+
+use manwomanDB;
+
+-- 14. Bitte ermitteln Sie, welche Interessensnummer wie oft genannt wurde. Erwartet werden pro
+-- intnr die Anzahl der Nennungen.IHier ist eine Gruppierung erforderlich. Sortieren Sie die Ausgabe
+-- nach Anzahl intnr.
+
+select mwi.intnr, count(*)
+from tl3_manwoman mw
+join tl3_mw_interessen mwi on mw.mwnr = mwi.mwnr
+-- join tl3_interessen i on i.intnr = mwi.intnr
+group by mwi.intnr
+order by count(*);
+
+
+select mwi.intnr, count(*)
+from tl3_manwoman mw
+join tl3_mw_interessen mwi on mw.mwnr = mwi.mwnr
+-- join tl3_interessen i on i.intnr = mwi.intnr
+group by mwi.intnr
+order by count(*);
+
+-- 15. Welches sind die drei Personen (Vornamen) mit der hochsten mwnr?
+select top 3 mw. vorname
+from tl3_manwoman mw
+order by mw.mwnr desc;
+
+select mwi.intnr, count(*)
+from tl3_mw_interessen mwi
+-- join tl3_interessen i on i.intnr = mwi.intnr
+group by mwi.intnr
+order by count(*);
+
+select *
+from tl3_mw_interessen mwi
+-- join tl3_interessen i on i.intnr = mwi.intnr
+group by mwi.intnr
+order by count(*);
+
+
+select mw , count(*)
+from tl3_manwoman mw
+tl3_mw_interessen mwi
+-- join tl3_interessen i on i.intnr = mwi.intnr
+group by mwi.intnr
+
+select mwi.intnr, count(*)
+from tl3_manwoman mw
+join tl3_mw_interessen mwi on mw.mwnr = mwi.mwnr
+-- join tl3_interessen i on i.intnr = mwi.intnr
+group by mwi.intnr
+order by count(*);
+
+select mwi.intnr, i.inttext, count(*)
+from tl3_mw_interessen mwi
+join tl3_interessen i on i.intnr = mwi.intnr
+group by mwi.intnr, i.inttext
+order by count(*);
+
+-- 15. Welches sind die drei Personen (Vornamen) mit der hochsten mwnr?
+select top 3 mw. vorname
+from tl3_manwoman mw
+order by mw.mwnr desc;
+
+-- 16. Welche Intnr (ggf. auch mehrere) wurden am haufigsten genannt?
+select top 1 with ties i.intnr, count(*)
+from tl3_interessen i
+join tl3_mw_interessen mwi on mwi.intnr = i.intnr
+group by i.intnr
+order by count(*) desc;
+
 
