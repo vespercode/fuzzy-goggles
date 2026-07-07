@@ -1,26 +1,5 @@
 USE e_commerce;
- 
- 
--- Alte Daten löschen
-
-DELETE FROM bestellung;
-DELETE FROM produkt;
-DELETE FROM kunde;
-DELETE FROM lieferant;
-DELETE FROM kategorie;
- 
- 
--- Identity zurücksetzen
-
-DBCC CHECKIDENT ('lieferant', RESEED, 0);
-DBCC CHECKIDENT ('kunde', RESEED, 0);
-DBCC CHECKIDENT ('produkt', RESEED, 0);
- 
-
---DBCC CHECKIDENT ('lieferant', RESEED, 1);
---DBCC CHECKIDENT ('kunde', RESEED, 1);
---DBCC CHECKIDENT ('produkt', RESEED, 1);
- 
+  
 -- Kategorien
 
 INSERT INTO kategorie VALUES
@@ -55,25 +34,24 @@ INSERT INTO kunde VALUES
 ('Jonas', 'Hoffmann', 'Bergstrasse 3', '91052', 'Erlangen'),
 ('Sofia', 'Klein', 'Lindenweg 6', '90431', 'Nuernberg');
   
- select * from lieferant
 -- Produkte
 
 INSERT INTO produkt VALUES
-('Laptop', 'EL', 1),
-('Monitor', 'EL', 1),
-('Tastatur', 'BU', 2),
-('Maus', 'BU', 2),
-('Druckerpapier', 'BU', 2),
-('Staubsauger', 'HA', 3),
-('Kaffeemaschine', 'HA', 3),
-('T-Shirt', 'KL', 4),
-('Jacke', 'KL', 4),
-('Sneaker', 'SP', 5),
-('Fussball', 'SP', 5),
-('Fitnessmatte', 'SP', 5),
-('Kaffee', 'LE', 6),
-('Tee', 'LE', 6),
-('Schokolade', 'LE', 6);
+('Laptop', 'EL', 1, 690.00),
+('Monitor', 'EL', 1, 150.00),
+('Tastatur', 'BU', 2, 35.00),
+('Maus', 'BU', 2, 32.50),
+('Druckerpapier', 'BU', 2, 7.99),
+('Staubsauger', 'HA', 3, 259.90),
+('Kaffeemaschine', 'HA', 3, 439.90),
+('T-Shirt', 'KL', 4, 29.90),
+('Jacke', 'KL', 4, 68.90),
+('Sneaker', 'SP', 5, 74.90),
+('Fussball', 'SP', 5, 49.50),
+('Fitnessmatte', 'SP', 5, 24.0),
+('Kaffee', 'LE', 6, 12.90),
+('Tee', 'LE', 6, 3.90),
+('Schokolade', 'LE', 6, 1.29);
   
  
 -- Bestellungen
@@ -101,35 +79,3 @@ INSERT INTO bestellung VALUES
 (13, 4, '2026-07-12', 3);
 
  
-
-
-SELECT 
-    p.pr_id,
-    p.bezeichnung AS produkt,
-    k.bezeichnung AS kategorie,
-    l.bezeichnung AS lieferant
-FROM produkt p
-JOIN kategorie k ON p.ka_id = k.ka_id
-JOIN lieferant l ON p.li_id = l.li_id;
-
-
-SELECT
-    b.datum,
-    ku.vorname,
-    ku.nachname,
-    p.bezeichnung AS produkt,
-    b.menge
-FROM bestellung b
-JOIN kunde ku ON b.ku_id = ku.ku_id
-JOIN produkt p ON b.pr_id = p.pr_id
-ORDER BY b.datum;
-
-
-
-SELECT 
-    l.bezeichnung AS Lieferant,
-    p.bezeichnung AS Produkt
-FROM lieferant l
-JOIN produkt p ON p.li_id = l.li_id
-ORDER BY l.bezeichnung, p.bezeichnung;
-GO
